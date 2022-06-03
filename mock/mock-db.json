@@ -1,0 +1,16 @@
+{
+  "posts": [
+    {
+      "title": "First Post",
+      "text": "Just text",
+      "date": "1654258385823",
+      "id": 1
+    },
+    {
+      "title": "Second Post",
+      "text": "Just some text again",
+      "date": "1654258385823",
+      "id": 2
+    }
+  ]
+}
