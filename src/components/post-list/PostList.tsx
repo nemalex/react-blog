@@ -15,7 +15,7 @@ const PostList = ({posts}: PostListProps) => {
     return (
         posts ?
     <>
-        {[...posts]?.reverse().map((post) => <PostItem key={post.id} p={post} />)}
+        {[...posts]?.reverse().map((post) => <PostItem key={post.id} p={post} single={false}/>)}
     </>: <></>)
 
 }

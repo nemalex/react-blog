@@ -17,12 +17,20 @@ export const postsApi = createApi({
 			query : () => 'posts',
 			providesTags : ['Posts'],
 		}),
+		getEntry : builder.query({
+			query : (id) => 'posts/' + id,
+			providesTags : ['Posts'],
+		}),
 		postPost : builder.mutation({
-			query : ( post: Post ) => ({
-				url : `posts`,
-				method : 'POST',
-				body: JSON.stringify({...post})
-			})
+			query : ( post: Post ) => {
+				console.log(post);
+				return {
+					url : `posts`,
+					method : 'POST',
+					body: { ...post }
+				}
+			},
+			invalidatesTags : ['Posts'],
 		}),
 		deletePost : builder.mutation({
 			query : ({ id }) => ({
@@ -34,4 +42,4 @@ export const postsApi = createApi({
 	}),
 })
 
-export const { useGetPostsQuery, usePostPostMutation, useDeletePostMutation } = postsApi;
+export const { useGetPostsQuery, useGetEntryQuery, usePostPostMutation, useDeletePostMutation } = postsApi;

@@ -1,16 +1,28 @@
 {
   "posts": [
     {
-      "title": "First Post",
-      "text": "Just text",
-      "date": "1654258385823",
+      "title": "elso",
+      "text": "elso\n",
+      "date": "2022-06-04T11:52:09.400Z",
       "id": 1
     },
     {
-      "title": "Second Post",
-      "text": "Just some text again",
-      "date": "1654258385823",
+      "title": "masodik",
+      "text": "masoidpasoa",
+      "date": "2022-06-04T11:52:17.600Z",
       "id": 2
+    },
+    {
+      "title": "hello",
+      "text": "world",
+      "date": "2022-06-04T12:40:59.600Z",
+      "id": 3
+    },
+    {
+      "title": "from the nets",
+      "text": "hello",
+      "date": "2022-06-04T15:33:52.200Z",
+      "id": 4
     }
   ]
 }
