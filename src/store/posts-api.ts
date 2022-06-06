@@ -9,7 +9,7 @@ interface Post {
 export const postsApi = createApi({
 	reducerPath : 'postsApi',
 	baseQuery : fetchBaseQuery({
-		baseUrl : 'http://localhost:5000/',
+		baseUrl : 'https://api.nemalex.xyz',
 	}),
 	tagTypes : ['Posts'],
 	endpoints : (builder) => ({

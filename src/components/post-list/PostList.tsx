@@ -1,4 +1,6 @@
+import { useGetPostsQuery } from "../../store/posts-api";
 import PostItem from "../post-item/PostItem";
+import classes from './PostList.module.css'
 
 interface Post {
 	title: string,
@@ -7,17 +9,15 @@ interface Post {
     id: string,
 }
 
-interface PostListProps {
-    posts: Post[]
-}
+const PostList = () => {
+    const { isLoading, isError, data } = useGetPostsQuery('');
 
-const PostList = ({posts}: PostListProps) => {
-    return (
-        posts ?
-    <>
-        {[...posts]?.reverse().map((post) => <PostItem key={post.id} p={post} single={false}/>)}
-    </>: <></>)
-
+    return <div className={classes.content}>
+        {isLoading ? <>Loading</> : data ?
+            [...data]?.reverse().map((post: Post) => <PostItem key={post.id} p={post} single={false}/>)
+        : <></>}
+        {isError ? <>Failed to load posts</> : <></>}
+    </div>
 }
 
 export default PostList;

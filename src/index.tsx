@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { postsApi } from './store/posts-api';
 import store from './store/index'
 
 const root = ReactDOM.createRoot(
