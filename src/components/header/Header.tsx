@@ -1,11 +1,18 @@
 import { Link, useLocation } from 'react-router-dom';
 import classes from './Header.module.css'
 import { AppBar, Button, Box, Card, Toolbar, Stack, Paper} from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from '../../store/auth-slice';
 
 interface ItemWrapperProps {
     to: string,
     children: React.ReactNode
     selected: boolean
+}
+
+interface LoginButtonProps {
+    isLoggedIn: boolean,
+    logout: () => void,
 }
 
 const ItemWrapper = ({ to, children, selected }: ItemWrapperProps) => {
@@ -17,27 +24,29 @@ const ItemWrapper = ({ to, children, selected }: ItemWrapperProps) => {
     </Link>
 }
 
+const LoginButton = ({ isLoggedIn, logout }: LoginButtonProps) => {
+    return <>{ isLoggedIn && 
+        <Button variant='contained' onClick={logout}>
+            Logout
+        </Button> 
+        }
+    
+        {isLoggedIn ||
+        <ItemWrapper
+            to='/login' selected={false}                            >
+            Login
+        </ItemWrapper> }
+    </>
+}
+
 const Header = () => {
     const location = useLocation();
+	const isLoggedIn = useSelector((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn);
+	const dispatch = useDispatch();
 
-    const links = [
-        {
-            name: "Home",
-            href: "/"
-        },
-        {
-            name: "Posts",
-            href: "/posts"
-        },
-        {
-            name: "New Post",
-            href: "/newpost"
-        },
-        {
-            name: "Admin",
-            href: "/admin"
-        }
-    ]
+	const logout = () => {
+		dispatch(authActions.logout())
+	}
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -48,17 +57,25 @@ const Header = () => {
                         spacing={ 3 }
                         className={classes.links}
                     >
-                        {
-                            links.map(l => (
-                                <ItemWrapper
-                                    to={ l.href }
-                                    selected={l.href === location.pathname}
-                                    key={l.href}
-                                >
-                                    { l.name }
-                                </ItemWrapper>
-                            ))
-                        }
+                        <ItemWrapper
+                            to='/'
+                            selected={'/' === location.pathname}
+                        >
+                            Home
+                        </ItemWrapper>
+                        <ItemWrapper
+                            to='/posts'
+                            selected={'/posts' === location.pathname}
+                        >
+                            Posts
+                        </ItemWrapper>
+                        <ItemWrapper
+                            to='/newpost'
+                            selected={'/newpost' === location.pathname}
+                        >
+                            New Post
+                        </ItemWrapper>
+                        <LoginButton isLoggedIn={isLoggedIn} logout={logout} />
                     </Stack>
                 </Toolbar>
             </AppBar>

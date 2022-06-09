@@ -1,10 +1,12 @@
 import { Typography, TextField, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { usePostPostMutation } from "../../store/posts-api";
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 const PostNew = () => {
     const [postPost] = usePostPostMutation();
+    const isLoggedIn = useSelector((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn);
     const navigate = useNavigate();
 
     const {
@@ -22,7 +24,6 @@ const PostNew = () => {
 
     const submitHandler = (data: { [x: string]: any; }) => {
         if (!isValid) return;
-        console.log(data)
         postPost({
             ...data,
             title: data.title,
@@ -33,8 +34,9 @@ const PostNew = () => {
 
     }
 
-    return (
-        <div>
+    return (<>
+        {isLoggedIn || <Navigate to='/login' />}
+        {isLoggedIn && <div>
             <Typography variant="h5">Make something wonderful!</Typography>
             <form onSubmit={handleSubmit(submitHandler)}>
                 <TextField
@@ -67,7 +69,8 @@ const PostNew = () => {
                     save
                 </Button>
             </form>
-        </div>
+        </div>}
+        </>
     );
 }
 
