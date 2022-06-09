@@ -1,6 +1,6 @@
 import { useGetPostsQuery } from "../../store/posts-api";
 import PostItem from "../post-item/PostItem";
-import classes from './PostList.module.css'
+//import classes from './PostList.module.css'
 
 interface Post {
 	title: string,
@@ -12,7 +12,7 @@ interface Post {
 const PostList = () => {
     const { isLoading, isError, data } = useGetPostsQuery('');
 
-    return <div className={classes.content}>
+    return <div>
         {isLoading ? <>Loading</> : data ?
             [...data]?.reverse().map((post: Post) => <PostItem key={post.id} p={post} single={false}/>)
         : <></>}

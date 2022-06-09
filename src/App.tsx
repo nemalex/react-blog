@@ -8,15 +8,17 @@ import PostNew from './components/post-new/PostNew';
 function App() {
     return <>
         <Header />
-        <Routes>
-            <Route path='/' element={<>
-                Home
-            </>} />
-            <Route path='/admin' element={<>admin</>} />
-            <Route path='/newpost' element={<PostNew />} />
-            <Route path='/posts' element={ <PostList /> } />
-            <Route path='/posts/:id' element={<PostView />} />
-        </Routes>
+        <div className='content'>
+            <Routes>
+                <Route path='/' element={<>
+                    Home
+                </>} />
+                <Route path='/admin' element={<>admin</>} />
+                <Route path='/newpost' element={<PostNew />} />
+                <Route path='/posts' element={ <PostList /> } />
+                <Route path='/posts/:id' element={<PostView />} />
+            </Routes>
+        </div>
     </>;
 }
 
