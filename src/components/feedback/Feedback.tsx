@@ -24,7 +24,7 @@ const Feedback = () => {
         if (!isValid) return;
         postFeedback({
             ...data,
-            subject: data.title,
+            subject: data.subject,
             text: data.text,
             date: new Date()
         });
