@@ -6,12 +6,12 @@ import PostItem from '../post-item/PostItem';
 
 const PostView = () => {
     const { id } = useParams();
-    const { isSuccess, isError, isLoading, post } = useGetEntryQuery(id);
+    const { isSuccess, isError, isLoading, data } = useGetEntryQuery(id);
     const navigate = useNavigate();
 
     return (<div>
         {isSuccess && <>
-            { post && <PostItem p={post} single={true}/> }
+            { data && <PostItem p={data} single={true}/> }
         </>}
         {isError && <>Post not found</>}
         {isLoading && <>Loading</>}

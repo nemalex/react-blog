@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 const PostEdit = () => {
     const [editPost] = useEditPostMutation();
     const { id } = useParams();
-    const { post } = useGetEntryQuery(id);
+    const { data } = useGetEntryQuery(id);
     const isLoggedIn = useSelector((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn);
     const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ const PostEdit = () => {
         if (!isValid) return;
         console.log(data)
         editPost({
-            ...post,
+            ...data,
             title: data.title,
             text: data.text,
         });
@@ -51,7 +51,7 @@ const PostEdit = () => {
                         required : true,
                         minLength : 10,
                     })}
-                    defaultValue={post?.title}
+                    defaultValue={data?.title}
                 />
                 <br />
                 <TextField
@@ -66,7 +66,7 @@ const PostEdit = () => {
                         required : true,
                         minLength : 10,
                     })}
-                    defaultValue={post?.text}
+                    defaultValue={data?.text}
                 />
                 <br />
                 <Button type="submit" variant="contained" color="primary">
