@@ -1,7 +1,7 @@
-import { Typography, TextField, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Typography, TextField, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { usePostFeedbackMutation } from "../../store/feedback-api";
+import { usePostFeedbackMutation } from '../../store/feedback-api';
 
 const Feedback = () => {
     const [postFeedback] = usePostFeedbackMutation();
@@ -10,14 +10,14 @@ const Feedback = () => {
     const {
         handleSubmit,
         register,
-        formState : {
+        formState: {
             touchedFields,
             errors,
             isValid,
         },
     } = useForm({
-        reValidateMode : 'onChange',
-        mode : 'onBlur',
+        reValidateMode: 'onChange',
+        mode: 'onBlur',
     });
 
     const submitHandler = (data: { [x: string]: any; }) => {
@@ -26,7 +26,7 @@ const Feedback = () => {
             ...data,
             subject: data.subject,
             text: data.text,
-            date: new Date()
+            date: new Date(),
         });
         navigate('/posts');
     }
@@ -42,8 +42,8 @@ const Feedback = () => {
                     variant="outlined"
                     error={touchedFields.subject && errors.subject}
                     {...register('subject', {
-                        required : true,
-                        minLength : 3,
+                        required: true,
+                        minLength: 3,
                     })}
                 />
                 <br />
@@ -56,8 +56,8 @@ const Feedback = () => {
                     rows={10}
                     error={touchedFields.text && errors.text}
                     {...register('text', {
-                        required : true,
-                        minLength : 10,
+                        required: true,
+                        minLength: 10,
                     })}
                 />
                 <br />

@@ -2,7 +2,6 @@ import { Button } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetEntryQuery } from '../../store/posts-api';
 import PostItem from '../post-item/PostItem';
-//import classes from './PostView.module.css'
 
 const PostView = () => {
     const { id } = useParams();
@@ -11,12 +10,17 @@ const PostView = () => {
 
     return (<div>
         {isSuccess && <>
-            { data && <PostItem p={data} single={true}/> }
+            {data && <PostItem p={data} single={true} />}
         </>}
         {isError && <>Post not found</>}
         {isLoading && <>Loading</>}
-        <Button variant='outlined' onClick={() => navigate(-1)}>Back</Button>
-    </div>)
+        <Button
+            variant='outlined'
+            onClick={() => navigate(-1)}
+        >
+            Back
+        </Button>
+    </div>);
 }
 
 export default PostView;

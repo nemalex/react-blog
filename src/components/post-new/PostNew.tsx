@@ -6,20 +6,20 @@ import { useSelector } from 'react-redux';
 
 const PostNew = () => {
     const [postPost] = usePostPostMutation();
-    const isLoggedIn = useSelector((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn);
+    const isLoggedIn = useSelector((state: { auth: { loggedIn: boolean } }) => state.auth.loggedIn);
     const navigate = useNavigate();
 
     const {
         handleSubmit,
         register,
-        formState : {
+        formState: {
             touchedFields,
             errors,
             isValid,
         },
     } = useForm({
-        reValidateMode : 'onChange',
-        mode : 'onBlur',
+        reValidateMode: 'onChange',
+        mode: 'onBlur',
     });
 
     const submitHandler = (data: { [x: string]: any; }) => {
@@ -28,10 +28,9 @@ const PostNew = () => {
             ...data,
             title: data.title,
             text: data.text,
-            date: new Date()
+            date: new Date(),
         });
         navigate('/posts');
-
     }
 
     return (<>
@@ -46,8 +45,8 @@ const PostNew = () => {
                     variant="outlined"
                     error={touchedFields.title && errors.title}
                     {...register('title', {
-                        required : true,
-                        minLength : 10,
+                        required: true,
+                        minLength: 3,
                     })}
                 />
                 <br />
@@ -60,18 +59,20 @@ const PostNew = () => {
                     rows={10}
                     error={touchedFields.text && errors.text}
                     {...register('text', {
-                        required : true,
-                        minLength : 10,
+                        required: true,
+                        minLength: 10,
                     })}
                 />
                 <br />
-                <Button type="submit" variant="contained" color="primary">
-                    save
+                <Button
+                    type="submit"
+                    variant="contained" color="primary"
+                >
+                    Save
                 </Button>
             </form>
         </div>}
-        </>
-    );
+    </>);
 }
 
 export default PostNew;

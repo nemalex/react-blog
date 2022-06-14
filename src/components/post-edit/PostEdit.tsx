@@ -7,38 +7,37 @@ import { useSelector } from 'react-redux';
 const PostEdit = () => {
     const [editPost] = useEditPostMutation();
     const { id } = useParams();
-    const { data } = useGetEntryQuery(id);
-    const isLoggedIn = useSelector((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn);
+    const { data, isLoading, isError } = useGetEntryQuery(id);
+    const isLoggedIn = useSelector((state: { auth: { loggedIn: boolean } }) => state.auth.loggedIn);
     const navigate = useNavigate();
 
     const {
         handleSubmit,
         register,
-        formState : {
+        formState: {
             touchedFields,
             errors,
             isValid,
         },
     } = useForm({
-        reValidateMode : 'onChange',
-        mode : 'onBlur',
+        reValidateMode: 'onChange',
+        mode: 'onBlur',
     });
 
-    const submitHandler = (data: any) => {
-        if (!isValid) return;
+    const submitHandler = (d: any) => {
         console.log(data)
+        if (!isValid) return;
         editPost({
             ...data,
-            title: data.title,
-            text: data.text,
+            title: d.title,
+            text: d.text,
         });
         navigate('/posts');
-
     }
 
     return (<>
         {isLoggedIn || <Navigate to='/login' />}
-        {isLoggedIn && <div>
+        {isLoading ? <>Loading...</> : isError ? <>Error loading post</> : <div>
             <Typography variant="h5">Make something wonderful!</Typography>
             <form onSubmit={handleSubmit(submitHandler)}>
                 <TextField
@@ -48,8 +47,8 @@ const PostEdit = () => {
                     variant="outlined"
                     error={touchedFields.title && errors.title}
                     {...register('title', {
-                        required : true,
-                        minLength : 10,
+                        required: true,
+                        minLength: 3,
                     })}
                     defaultValue={data?.title}
                 />
@@ -63,19 +62,29 @@ const PostEdit = () => {
                     rows={10}
                     error={touchedFields.text && errors.text}
                     {...register('text', {
-                        required : true,
-                        minLength : 10,
+                        required: true,
+                        minLength: 10,
                     })}
                     defaultValue={data?.text}
                 />
                 <br />
-                <Button type="submit" variant="contained" color="primary">
-                    save
+                <Button
+                    color="error"
+                    variant='outlined'
+                    onClick={() => navigate(-1)}
+                >
+                    Cancel
+                </Button>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="success"
+                >
+                    Save
                 </Button>
             </form>
         </div>}
-        </>
-    );
+    </>);
 }
 
 export default PostEdit;

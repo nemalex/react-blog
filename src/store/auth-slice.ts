@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-	loggedIn : false,
+	loggedIn: false,
 }
 
 const authSlice = createSlice({
-	name : 'auth',
+	name: 'auth',
 	initialState,
-	reducers : {
-		login (state) {
+	reducers: {
+		login(state) {
 			state.loggedIn = true;
 			localStorage.setItem('isLoggedIn', 'true');
 		},
-		logout (state) {
+		logout(state) {
 			state.loggedIn = false;
 			localStorage.setItem('isLoggedIn', 'false');
 		},

@@ -19,32 +19,30 @@ interface PostItemProps {
 const PostItem = ({ p, single }: PostItemProps) => {
     const [deletePost] = useDeletePostMutation();
     const navigate = useNavigate();
-    const isLoggedIn = useSelector((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn);
+    const isLoggedIn = useSelector((state: { auth: { loggedIn: boolean } }) => state.auth.loggedIn);
 
     const deleteHandler = async () => {
-        const isConfirmed = window.confirm("Are you sure you want to remove this burrito?");
-
+        const isConfirmed = window.confirm("Are you sure you want to delete this post?");
         if (isConfirmed) {
-            await deletePost(p.id)
+            await deletePost(p.id);
             if (single) {
-                navigate('/posts')
+                navigate('/posts');
             }
         }
-
     }
 
     return (
         <Box>
             <Card variant="outlined" className={classes.card}>
                 <h1>{p.title}</h1>
-                <p>{p.text}</p>
+                <p className={classes.body}>{p.text}</p>
                 <small>{p.date.toString()}</small>
-                {isLoggedIn && <Button onClick={deleteHandler}>Delete</Button>}
-                {!single && <Button onClick={ () => navigate("/posts/" + p.id) }>Permalink</Button>}
-                {isLoggedIn && <Button onClick={ () => navigate("/edit/" + p.id) }>Edit</Button>}
+                {isLoggedIn && <Button color="error" onClick={deleteHandler}>Delete</Button>}
+                {!single && <Button onClick={() => navigate("/posts/" + p.id)}>Permalink</Button>}
+                {isLoggedIn && <Button onClick={() => navigate("/edit/" + p.id)}>Edit</Button>}
             </Card>
         </Box>
-    )
+    );
 }
 
 export default PostItem;

@@ -5,7 +5,6 @@ import SearchIcon from '@mui/icons-material/Search'
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/auth-slice';
 import { searchActions } from '../../store/search-slice';
-import { useEffect } from 'react';
 
 interface ItemWrapperProps {
     to: string,
@@ -21,45 +20,41 @@ interface LoginButtonProps {
 
 const ItemWrapper = ({ to, children, selected }: ItemWrapperProps) => {
     // TODO button not getting colored by selected
-    return <NavLink to={to} className={classes.link}>
+    return (<NavLink to={to} className={classes.link}>
         <Button variant='contained' className={selected ? classes.selected : ''}>
             {children}
         </Button>
-    </NavLink>
+    </NavLink>);
 }
 
 const LoginButton = ({ isLoggedIn, selected, logout }: LoginButtonProps) => {
-    return <>{ isLoggedIn && 
-        <Button variant='contained' onClick={logout}>
-            Logout
-        </Button> 
-        }
-    
+    return (<>
+        {isLoggedIn &&
+            <Button variant='contained' onClick={logout}>
+                Logout
+            </Button>}
         {isLoggedIn ||
-        <ItemWrapper
-            to='/login' 
-            selected={selected}
-        >
-            Login
-        </ItemWrapper> }
-    </>
+            <ItemWrapper
+                to='/login'
+                selected={selected}
+            >
+                Login
+            </ItemWrapper>}
+    </>);
 }
 
 const Header = () => {
     const location = useLocation();
-	const isLoggedIn = useSelector((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn);
-	const dispatch = useDispatch();
+    const isLoggedIn = useSelector((state: { auth: { loggedIn: boolean } }) => state.auth.loggedIn);
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(searchActions.hide());
-    })
+    const logout = () => {
+        dispatch(authActions.logout());
+    }
 
-	const logout = () => {
-		dispatch(authActions.logout());
-	}
-    
     const toggle = () => {
         dispatch(searchActions.toggle());
+        dispatch(searchActions.setTerm(''));
     }
 
     return (
@@ -68,7 +63,7 @@ const Header = () => {
                 <Toolbar>
                     <Stack
                         direction='row'
-                        spacing={ 3 }
+                        spacing={3}
                         className={classes.links}
                     >
                         <ItemWrapper

@@ -2,3 +2,10 @@
     padding: 10px;
     margin-bottom: 20px;
 }
+
+.body {
+    white-space: pre;
+    width: 90%;
+    word-wrap: normal;
+    word-break: break-all;
+}

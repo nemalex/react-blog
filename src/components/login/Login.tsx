@@ -6,24 +6,24 @@ import { authActions } from "../../store/auth-slice";
 
 const Login = () => {
     const navigate = useNavigate();
-	const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const {
         handleSubmit,
         register,
-        formState : {
+        formState: {
             touchedFields,
             errors,
             isValid,
         },
     } = useForm({
-        reValidateMode : 'onChange',
-        mode : 'onBlur',
+        reValidateMode: 'onChange',
+        mode: 'onBlur',
     });
 
     const submitHandler = () => {
         if (!isValid) return;
-		dispatch(authActions.login())
+        dispatch(authActions.login())
         navigate('/posts');
 
     }
@@ -38,8 +38,8 @@ const Login = () => {
                     label="Username"
                     variant="outlined"
                     {...register('username', {
-                        required : true,
-                        minLength : 3,
+                        required: true,
+                        minLength: 3,
                     })}
                     error={touchedFields.username && errors.username}
                 />
@@ -50,8 +50,8 @@ const Login = () => {
                     label="Password"
                     variant="outlined"
                     {...register('password', {
-                        required : true,
-                        minLength : 6,
+                        required: true,
+                        minLength: 6,
                     })}
                     error={touchedFields.password && errors.password}
                 />

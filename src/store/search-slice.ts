@@ -1,22 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    searchHidden : true,
+    searchHidden: true,
+    searchTerm: "",
 }
 
 const searchSlice = createSlice({
-    name : 'search',
+    name: 'search',
     initialState,
-    reducers : {
-        show (state) {
+    reducers: {
+        show(state) {
             state.searchHidden = false;
         },
-        hide (state) {
+        hide(state) {
             state.searchHidden = true;
         },
-        toggle (state) {
+        toggle(state) {
             state.searchHidden = !state.searchHidden;
-        }
+        },
+        setTerm(state, { payload }) {
+            state.searchTerm = payload;
+        },
     },
 });
 
