@@ -37,11 +37,11 @@ const Login = () => {
                     type="text"
                     label="Username"
                     variant="outlined"
-                    error={touchedFields.username && errors.username}
                     {...register('username', {
                         required : true,
-                        min : 3,
+                        minLength : 3,
                     })}
+                    error={touchedFields.username && errors.username}
                 />
                 <br />
                 <TextField
@@ -49,11 +49,11 @@ const Login = () => {
                     type="password"
                     label="Password"
                     variant="outlined"
-                    error={touchedFields.password && errors.password}
                     {...register('password', {
                         required : true,
-                        min : 6,
+                        minLength : 6,
                     })}
+                    error={touchedFields.password && errors.password}
                 />
                 <br />
                 <Button type="submit" variant="contained" color="primary">

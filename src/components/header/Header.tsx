@@ -1,8 +1,11 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 import classes from './Header.module.css'
-import { AppBar, Button, Box, Card, Toolbar, Stack, Paper} from '@mui/material';
+import { AppBar, Button, Box, Toolbar, Stack } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search'
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/auth-slice';
+import { searchActions } from '../../store/search-slice';
+import { useEffect } from 'react';
 
 interface ItemWrapperProps {
     to: string,
@@ -12,19 +15,20 @@ interface ItemWrapperProps {
 
 interface LoginButtonProps {
     isLoggedIn: boolean,
+    selected: boolean,
     logout: () => void,
 }
 
 const ItemWrapper = ({ to, children, selected }: ItemWrapperProps) => {
     // TODO button not getting colored by selected
-    return <Link to={to} className={classes.link}>
+    return <NavLink to={to} className={classes.link}>
         <Button variant='contained' className={selected ? classes.selected : ''}>
             {children}
         </Button>
-    </Link>
+    </NavLink>
 }
 
-const LoginButton = ({ isLoggedIn, logout }: LoginButtonProps) => {
+const LoginButton = ({ isLoggedIn, selected, logout }: LoginButtonProps) => {
     return <>{ isLoggedIn && 
         <Button variant='contained' onClick={logout}>
             Logout
@@ -33,7 +37,9 @@ const LoginButton = ({ isLoggedIn, logout }: LoginButtonProps) => {
     
         {isLoggedIn ||
         <ItemWrapper
-            to='/login' selected={false}                            >
+            to='/login' 
+            selected={selected}
+        >
             Login
         </ItemWrapper> }
     </>
@@ -44,9 +50,17 @@ const Header = () => {
 	const isLoggedIn = useSelector((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn);
 	const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(searchActions.hide());
+    })
+
 	const logout = () => {
-		dispatch(authActions.logout())
+		dispatch(authActions.logout());
 	}
+    
+    const toggle = () => {
+        dispatch(searchActions.toggle());
+    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -69,13 +83,31 @@ const Header = () => {
                         >
                             Posts
                         </ItemWrapper>
-                        <ItemWrapper
+                        {isLoggedIn && <ItemWrapper
                             to='/newpost'
                             selected={'/newpost' === location.pathname}
                         >
                             New Post
+                        </ItemWrapper>}
+                        {isLoggedIn || <ItemWrapper
+                            to='/feedback'
+                            selected={'/feedback' === location.pathname}
+                        >
+                            Feedback
                         </ItemWrapper>
-                        <LoginButton isLoggedIn={isLoggedIn} logout={logout} />
+                        }
+                        {'/posts' === location.pathname && <Button
+                            variant='contained'
+                            onClick={toggle}
+                            hidden={'/posts' !== location.pathname}
+                        >
+                            <SearchIcon />
+                        </Button>}
+                        <LoginButton
+                            isLoggedIn={isLoggedIn}
+                            selected={'/login' === location.pathname}
+                            logout={logout}
+                        />
                     </Stack>
                 </Toolbar>
             </AppBar>

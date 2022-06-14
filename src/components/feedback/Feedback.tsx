@@ -1,12 +1,10 @@
 import { Typography, TextField, Button } from "@mui/material";
-import { Navigate, useNavigate } from "react-router-dom";
-import { usePostPostMutation } from "../../store/posts-api";
+import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { usePostFeedbackMutation } from "../../store/feedback-api";
 
-const PostNew = () => {
-    const [postPost] = usePostPostMutation();
-    const isLoggedIn = useSelector((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn);
+const Feedback = () => {
+    const [postFeedback] = usePostFeedbackMutation();
     const navigate = useNavigate();
 
     const {
@@ -24,30 +22,28 @@ const PostNew = () => {
 
     const submitHandler = (data: { [x: string]: any; }) => {
         if (!isValid) return;
-        postPost({
+        postFeedback({
             ...data,
-            title: data.title,
+            subject: data.title,
             text: data.text,
             date: new Date()
         });
         navigate('/posts');
-
     }
 
-    return (<>
-        {isLoggedIn || <Navigate to='/login' />}
-        {isLoggedIn && <div>
-            <Typography variant="h5">Make something wonderful!</Typography>
+    return (
+        <div>
+            <Typography variant="h5">Send a message!</Typography>
             <form onSubmit={handleSubmit(submitHandler)}>
                 <TextField
                     style={{ width: "100%", margin: "5px" }}
                     type="text"
-                    label="Title"
+                    label="Subject"
                     variant="outlined"
-                    error={touchedFields.title && errors.title}
-                    {...register('title', {
+                    error={touchedFields.subject && errors.subject}
+                    {...register('subject', {
                         required : true,
-                        minLength : 10,
+                        minLength : 3,
                     })}
                 />
                 <br />
@@ -66,12 +62,11 @@ const PostNew = () => {
                 />
                 <br />
                 <Button type="submit" variant="contained" color="primary">
-                    save
+                    SEND
                 </Button>
             </form>
-        </div>}
-        </>
+        </div>
     );
 }
 
-export default PostNew;
+export default Feedback;

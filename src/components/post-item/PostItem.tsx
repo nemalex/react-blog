@@ -1,6 +1,6 @@
 import { Box, Button, Card } from "@mui/material";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDeletePostMutation } from "../../store/posts-api";
 import classes from './PostItem.module.css'
 
@@ -40,7 +40,8 @@ const PostItem = ({ p, single }: PostItemProps) => {
                 <p>{p.text}</p>
                 <small>{p.date.toString()}</small>
                 {isLoggedIn && <Button onClick={deleteHandler}>Delete</Button>}
-                {!single && <Link to={ "/posts/" + p.id }>Permalink</Link>}
+                {!single && <Button onClick={ () => navigate("/posts/" + p.id) }>Permalink</Button>}
+                {isLoggedIn && <Button onClick={ () => navigate("/edit/" + p.id) }>Edit</Button>}
             </Card>
         </Box>
     )

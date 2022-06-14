@@ -1,6 +1,9 @@
+import { TextField } from "@mui/material";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useGetPostsQuery } from "../../store/posts-api";
 import PostItem from "../post-item/PostItem";
-//import classes from './PostList.module.css'
+import classes from './PostList.module.css'
 
 interface Post {
 	title: string,
@@ -10,12 +13,34 @@ interface Post {
 }
 
 const PostList = () => {
-    const { isLoading, isError, data } = useGetPostsQuery('');
+    const [ term, setTerm ] = useState('');
+    const { isLoading, isError, post } = useGetPostsQuery('');
+	const searchHidden = useSelector((state: {search: {searchHidden: boolean}}) => state.search.searchHidden);
 
+    // TODO figure put types again
+    const changeHandler = (event: any) => {
+        setTerm(event.target.value);
+    }
+    
     return <div>
-        {isLoading ? <>Loading</> : data ?
-            [...data]?.reverse().map((post: Post) => <PostItem key={post.id} p={post} single={false}/>)
-        : <></>}
+        {searchHidden || <>
+            <TextField
+                className={classes.search}
+                variant="outlined"
+                onChange={changeHandler}
+            />
+        </>}
+        {isLoading ? <>Loading</> : post &&
+            [...post]?.
+                reverse().
+                filter((p: Post) => {
+                    p.text 
+                }).
+                map((post: Post) => 
+                    <PostItem key={post.id} p={post} single={false}/>
+                )
+        }
+
         {isError ? <>Failed to load posts</> : <></>}
     </div>
 }

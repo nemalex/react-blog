@@ -4,6 +4,7 @@ interface Post {
 	title: string,
 	text: string,
 	date: Date,
+	id?: string
 }
 
 export const postsApi = createApi({
@@ -22,14 +23,19 @@ export const postsApi = createApi({
 			providesTags : ['Posts'],
 		}),
 		postPost : builder.mutation({
-			query : ( post: Post ) => {
-				console.log(post);
-				return {
-					url : `posts`,
-					method : 'POST',
-					body: { ...post }
-				}
-			},
+			query : ( post: Post ) => ({
+				url : `posts`,
+				method : 'POST',
+				body: { ...post }
+			}),
+			invalidatesTags : ['Posts'],
+		}),
+		editPost : builder.mutation({
+			query : ( post: Post ) => ({
+				url : `posts/${post.id}`,
+				method : 'PUT',
+				body: { ...post }
+			}),
 			invalidatesTags : ['Posts'],
 		}),
 		deletePost : builder.mutation({
@@ -42,4 +48,4 @@ export const postsApi = createApi({
 	}),
 })
 
-export const { useGetPostsQuery, useGetEntryQuery, usePostPostMutation, useDeletePostMutation } = postsApi;
+export const { useGetPostsQuery, useGetEntryQuery, usePostPostMutation, useEditPostMutation, useDeletePostMutation } = postsApi;

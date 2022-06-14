@@ -1,11 +1,13 @@
 import { Typography, TextField, Button } from "@mui/material";
-import { Navigate, useNavigate } from "react-router-dom";
-import { usePostPostMutation } from "../../store/posts-api";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useEditPostMutation, useGetEntryQuery } from "../../store/posts-api";
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-const PostNew = () => {
-    const [postPost] = usePostPostMutation();
+const PostEdit = () => {
+    const [editPost] = useEditPostMutation();
+    const { id } = useParams();
+    const { post } = useGetEntryQuery(id);
     const isLoggedIn = useSelector((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn);
     const navigate = useNavigate();
 
@@ -22,13 +24,13 @@ const PostNew = () => {
         mode : 'onBlur',
     });
 
-    const submitHandler = (data: { [x: string]: any; }) => {
+    const submitHandler = (data: any) => {
         if (!isValid) return;
-        postPost({
-            ...data,
+        console.log(data)
+        editPost({
+            ...post,
             title: data.title,
             text: data.text,
-            date: new Date()
         });
         navigate('/posts');
 
@@ -49,6 +51,7 @@ const PostNew = () => {
                         required : true,
                         minLength : 10,
                     })}
+                    defaultValue={post?.title}
                 />
                 <br />
                 <TextField
@@ -63,6 +66,7 @@ const PostNew = () => {
                         required : true,
                         minLength : 10,
                     })}
+                    defaultValue={post?.text}
                 />
                 <br />
                 <Button type="submit" variant="contained" color="primary">
@@ -74,4 +78,4 @@ const PostNew = () => {
     );
 }
 
-export default PostNew;
+export default PostEdit;
