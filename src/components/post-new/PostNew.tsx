@@ -43,11 +43,15 @@ const PostNew = () => {
                     type="text"
                     label="Title"
                     variant="outlined"
-                    error={touchedFields.title && errors.title}
+                    error={!!(touchedFields.title && errors.title)}
                     {...register('title', {
                         required: true,
                         minLength: 3,
                     })}
+                    helperText={
+                        (errors.title?.type === "required" && ("You must enter a title")) ||
+                        (errors.title?.type === "minLength" && ("The title must be at least 3 characters")) ||
+                        ""}
                 />
                 <br />
                 <TextField
@@ -57,11 +61,15 @@ const PostNew = () => {
                     variant="outlined"
                     multiline
                     rows={10}
-                    error={touchedFields.text && errors.text}
+                    error={!!(touchedFields.text && errors.text)}
                     {...register('text', {
                         required: true,
                         minLength: 10,
                     })}
+                    helperText={
+                        (errors.text?.type === "required" && ("You must enter a text body")) ||
+                        (errors.text?.type === "minLength" && ("The body must be at least 10 characters")) ||
+                        ""}
                 />
                 <br />
                 <Button

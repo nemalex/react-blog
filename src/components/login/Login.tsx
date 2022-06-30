@@ -41,7 +41,11 @@ const Login = () => {
                         required: true,
                         minLength: 3,
                     })}
-                    error={touchedFields.username && errors.username}
+                    error={!!(touchedFields.username && errors.username)}
+                    helperText={
+                        (errors.username?.type === "required" && ("You must enter your username")) ||
+                        (errors.username?.type === "minLength" && ("Your username must be at least 3 characters")) ||
+                        ""}
                 />
                 <br />
                 <TextField
@@ -53,7 +57,11 @@ const Login = () => {
                         required: true,
                         minLength: 6,
                     })}
-                    error={touchedFields.password && errors.password}
+                    error={!!(touchedFields.password && errors.password)}
+                    helperText={
+                        (errors.password?.type === "required" && ("You must enter your password")) ||
+                        (errors.password?.type === "minLength" && ("Your password must be at least 6 characters")) ||
+                        ""}
                 />
                 <br />
                 <Button type="submit" variant="contained" color="primary">
